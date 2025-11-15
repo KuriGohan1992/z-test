@@ -136,7 +136,10 @@ function getValue(){
 
    const zValue = (sampleMeanValue - nullValue) / (populationSdValue/Math.sqrt(sampleSizeValue));
 
+
    document.getElementById('svg-wrap').style.display = 'block';
+   document.getElementById('leftangle').setAttribute('x', `-600`);
+   document.getElementById('rightangle').setAttribute('x', `1200`);
 
    const results = document.getElementById('results');
    const zstatistic = document.getElementById('zstatistic');
@@ -338,15 +341,22 @@ function getValue(){
       `
    }
 
+   const note = document.getElementById('note');
+
    if (reject) {
       step5.innerHTML += `
          \\[ \\textbf{Decision: } \\text{Reject Null Hypothesis}\\]
       `
+      note.innerHTML = `<em>Note that rejecting the null hypothesis doesn’t prove the alternative; it just supports it.</em>`
    } else {
       step5.innerHTML += `
          \\[ \\textbf{Decision: } \\text{Fail to Reject Null Hypothesis}\\]
-      `         
+      `
+      note.innerHTML = `<em>Note that failing to reject the null hypothesis doesn’t prove it's true. It just suggests that there isn’t enough evidence against it based on your data and chosen significance level.</em>`
    }
+
+   
+   
       
    MathJax.typeset();
 
@@ -455,6 +465,7 @@ function updateSignificance(){
 
 // Cham's Javascript Code
 function showGraphArea(tail, value, zValue) {
+   
    const left = document.getElementById('leftangle');
    const right = document.getElementById('rightangle');
     
