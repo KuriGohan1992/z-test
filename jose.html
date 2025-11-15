@@ -103,18 +103,41 @@
                   </div>
                 </div>
               </div>
-              <!-- Third row: Sample Mean and Sample Size -->
-              <div style="display:flex; gap:20px; margin-top: 10px;">
-                <div class="inner-fields" style="display:flex; flex-direction: column; align-items: left;">
-                  <p>Sample Mean (x̅)</p>
-                  <div style="display:flex; align-items:center; gap:5px; width:100%;">
-                    <input id="sample-mean-val" type="text" style="flex:1;" tabindex="2">
-                  </div>
+
+              <div class="inner-fields" style="display:flex; flex-direction: column; align-items: left; margin-top: 10px;">
+                <p>Available Data</p>
+                <div style="display:flex; align-items:center; gap:5px; width:100%;">
+                  <select id="available-data" style="flex:1; background-color:#CCCCCC;" onchange="toggleDataInput()">
+                    <option value="m-sd-ss" selected>Mean, Standard Deviation, and Sample Size</option>
+                    <option value="rawdata">Raw Data</option>
+                  </select>
                 </div>
-                <div class="inner-fields" style="display:flex; flex-direction: column; align-items: left;">
-                  <p>Sample Size (n)</p>
-                  <div style="display:flex; align-items:center; gap:5px; width:100%;">
-                    <input id="sample-size-val" type="text" style="flex:1;" tabindex="3">
+              </div>
+
+              <div id="input-rawdata" class="inner-fields" style="display:none; flex-direction: column; align-items: left; margin-top: 10px;">
+                <p>Raw Data</p>
+                <textarea class="rounded-md" 
+                          id="rawdata-val"
+                          rows="3"
+                          style="width:100%; background-color:#CCCCCC; padding: 10px;"
+                          placeholder="Enter your data here"></textarea>
+              </div>
+
+              <!-- Third row: Sample Mean and Sample Size -->
+              <div id="input-m-sd-ss" style="display:block;">
+                <!-- Third row: Sample Mean and Sample Size -->
+                <div style="display:flex; gap:20px; margin-top: 10px;">
+                  <div class="inner-fields" style="display:flex; flex-direction: column; align-items: left;">
+                    <p>Sample Mean (x̅)</p>
+                    <div style="display:flex; align-items:center; gap:5px; width:100%;">
+                      <input id="sample-mean-val" type="text" style="flex:1;" tabindex="2">
+                    </div>
+                  </div>
+                  <div class="inner-fields" style="display:flex; flex-direction: column; align-items: left;">
+                    <p>Sample Size (n)</p>
+                    <div style="display:flex; align-items:center; gap:5px; width:100%;">
+                      <input id="sample-size-val" type="text" style="flex:1;" tabindex="3">
+                    </div>
                   </div>
                 </div>
               </div>
