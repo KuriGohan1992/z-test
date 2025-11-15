@@ -90,8 +90,3 @@ option {
 }
 
 #results-container mjx-container {text-align: left !important;}
-
-#rawdata-val::placeholder {
-    color: hsla(0, 0%, 0%, 0.60); 
-    opacity: 1;
-}

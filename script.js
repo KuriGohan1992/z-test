@@ -8,20 +8,18 @@ function validate(){
    const altOperatorValue = document.getElementById("alt-operator-val").value;
 
    // Available Data
-   const availableData = document.getElementById("available-data").value;
+   // const availableData = document.getElementById("available-data").value;
 
    // Sample Mean and Size
-   if (availableData !== "rawdata") {
-      sampleMeanValue = Number(document.getElementById("sample-mean-val").value);
-      sampleSizeValue = parseInt(document.getElementById("sample-size-val").value, 10);
-   }
+   const sampleMeanValue = Number(document.getElementById("sample-mean-val").value);
+   const sampleSizeValue = parseInt(document.getElementById("sample-size-val").value, 10);
+
    // Population Standard Deviation
    const populationSdValue = Number(document.getElementById("population-sd-val").value);
 
    // Significance & Confidence Levels
    const significanceLevel = Number(document.getElementById("significance-level").value);
    const confidenceLevel = Number(document.getElementById("confidence-level").value.replace("%",""));
-   
 
    //I aint writing allat, gpt wrote each check
    if (isNaN(Number(nullValue))) {
@@ -34,16 +32,14 @@ function validate(){
       return false;
    }
 
-   if (availableData !== "rawdata") {
-      if (isNaN(Number(sampleMeanValue))) {
-         alert("Sample mean must be a number");
-         return false;
-      }
+   if (isNaN(Number(sampleMeanValue))) {
+      alert("Sample mean must be a number");
+      return false;
+   }
 
-      if (!Number.isInteger(Number(sampleSizeValue)) || Number(sampleSizeValue) <= 0) {
-         alert("Sample size must be a positive integer");
-         return false;
-      }
+   if (!Number.isInteger(Number(sampleSizeValue)) || Number(sampleSizeValue) <= 0) {
+      alert("Sample size must be a positive integer");
+      return false;
    }
 
    if (Number(populationSdValue) <= 0 || isNaN(Number(populationSdValue))) {
@@ -72,24 +68,20 @@ function validate(){
       return false;
    }
 
-   if (!availableData) {
-       alert("Please select Available Data.");
-       return;
-    }
+   // if (!availableData) {
+   //    alert("Please select Available Data.");
+   //    return;
+   // }
 
-   // Only validate Sample Mean and Sample Size if availableData is "m-sd-ss"
-   if (availableData === "m-sd-ss") {
-      if (!sampleMeanValue) {
-         alert("Please fill in the Sample Mean.");
-         return false;
-      }
-
-      if (!sampleSizeValue) {
-         alert("Please fill in the Sample Size.");
-         return false;
-      }
+   if (!sampleMeanValue) {
+      alert("Please fill in the Sample Mean.");
+      return false;
    }
-   
+
+   if (!sampleSizeValue) {
+      alert("Please fill in the Sample Size.");
+      return false;
+   }
 
    if (!populationSdValue) {
       alert("Please fill in the Population Standard Deviation.");
@@ -108,7 +100,6 @@ function validate(){
    return true;
 }
 
-
 function getValue(){
    if (!validate()) return;
    const nullValue = Number(document.getElementById("null-val").value);
@@ -119,13 +110,11 @@ function getValue(){
    const altOperatorValue = document.getElementById("alt-operator-val").value;
 
    // // Available Data
-   const availableData = document.getElementById("available-data").value;
+   // const availableData = document.getElementById("available-data").value;
 
-   let sampleMeanValue, sampleSizeValue;
-   if (availableData === "m-sd-ss") {
-      sampleMeanValue = Number(document.getElementById("sample-mean-val").value);
-      sampleSizeValue = parseInt(document.getElementById("sample-size-val").value, 10);
-   }
+   // Sample Mean and Size
+   const sampleMeanValue = Number(document.getElementById("sample-mean-val").value);
+   const sampleSizeValue = parseInt(document.getElementById("sample-size-val").value, 10);
 
    // Population Standard Deviation
    const populationSdValue = Number(document.getElementById("population-sd-val").value);
@@ -142,18 +131,6 @@ function getValue(){
    console.log("Population Standard Deviation: " + populationSdValue);
    console.log("Significance Level: " + significanceLevel);
    console.log("Confidence Level: " + confidenceLevel);
-
-   // Ernest's Javascript code:
-   
-   // For Handling Raw Data:
-   const rawDatas = parseUniversal();
-   sampleSizeValue = rawDatas.length;
-   sampleMeanValue = rawDatas.reduce((a, b) => a + b, 0) / sampleSizeValue;
-   
-
-   console.log("Sample Mean: " + sampleMeanValue);
-   console.log("Sample Size: " + sampleSizeValue);
-   console.log("Population Standard Deviation: " + populationSdValue);
 
    // Cham's Javascript code
 
@@ -506,32 +483,3 @@ function showGraphArea(tail, value, zValue) {
    z_text.setAttribute('x', `${zValue * 150 + 593}`)
 }
 
-// Ernest
-function toggleDataInput() {
-   const select = document.getElementById("available-data").value;
-
-   const sectionMSS = document.getElementById("input-m-sd-ss");
-   const sectionRaw = document.getElementById("input-rawdata");
-
-   if (select === "rawdata") {
-       sectionMSS.style.display = "none";
-       sectionRaw.style.display = "block";
-   } else {
-       sectionMSS.style.display = "block";
-       sectionRaw.style.display = "none";
-   }
-}  
-
-function parseUniversal() {
-   const raw = document.getElementById("rawdata-val").value;
-
-   // Split by comma, newline, space, or tab (any amount)
-   const parts = raw.split(/[\s,]+/);
-
-   // Convert to numbers and filter invalid ones
-   const numbers = parts
-       .map(n => parseFloat(n))
-       .filter(n => !isNaN(n));
-
-   return numbers;
-}
