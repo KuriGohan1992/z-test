@@ -306,9 +306,14 @@ function getValue(){
    `
 
    if (nullOperatorValue === '=') {
-      step5.innerHTML = `
+      step5.innerHTML += `
       \\[
-         \\text{if ${zValue} } \\leq \\text{ ${-criticalValue} or ${zValue} } \\geq \\text{ ${criticalValue} }, then reject H_{0}}
+         \\begin{array}{}
+            \\text{if Z-Statistic}  \\leq \\text{-Critical Value}\\\\
+            \\text{or Z-Statistic} \\geq \\text{Critical Value, then reject } H_{0}\\\\
+            \\\\
+            \\text{if } ${zValue.toFixed(4)} \\leq ${-criticalValue.toFixed(4)} \\text{ or }  ${zValue.toFixed(4)} \\geq ${1*criticalValue.toFixed(4)} \\text{, then reject } H_{0}
+         \\end{array}
       \\]
       `
    }
