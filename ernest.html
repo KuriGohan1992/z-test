@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>HTML 5 Boilerplate</title>
+    <link rel="stylesheet" href="ernest.css">
+    <!--Para sa display ng Font Style - Dm Sans-->
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+
+
+    <!-- MathJax Config -->
+    <script>window.MathJax = { tex: { inlineMath: [['\\(','\\)'], ['$', '$']] } };</script>
+    
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/jstat@latest/dist/jstat.min.js"></script>
+  </head>
+
+  <body>
+
+
+
+
+<!-- PARENT DIV -->
+<div class="input-box ">
+     <div class="top-bar">
+        <h3 class="top-bar-text">Hypothesis Test Calculator</h3>
+     </div>
+     <!--1-->
+     <div class="upper-input-box center">
+         <div class="inner-upper-box ">
+            <!--BOX1-->
+            <div class="box1">
+               <p class="inner-text p-cus">Null Hypothesis(<sub>0</sub>)</p>
+               <br>
+               <span>μ</span>
+               <select onchange="updateAltValue()" id="null-operator-val"style="height:28.5px;width:30px;background-color:#95B5C9;">
+                  <option value="≥">≥</option>
+                  <option value="≤">≤</option>
+                  <option value="=">=</option>
+               </select>
+               <input oninput="updateAltValue()" id="null-val" type="text"class="inner-input"style="height: 26.9px;width:223px;">   
+            </div>
+
+            <!--BOX2-->
+            <div class="box2">
+               <p class="inner-text p-cus">Alternative Hypothesis(<sub>0</sub>) </p>
+               <br>
+               <span>μ</span>
+               <select id="alt-operator-val" style="height:28.5px; width:30px; background-color:#CCCCCC;" disabled>
+                  <option value="<"><</option>
+                  <option value=">">></option>
+                  <option value="≠">≠</option>
+               </select>
+               <input id="alt-val" type="text"class="inner-input"style="height: 26.9px;width:236px;background-color:#CCCCCC;"readonly>  
+            </div>
+         </div>
+         <!-- Secondary Inner Upper Input Box Div-->
+         <div class="inner-upper-box  inner-text"style="margin-top: 5px; flex-direction:column;">
+            <p class="p-cus">Available Data</p>
+            <select id ="available-data" style="width: 576px;height: 35px;background-color:#95B5C9;margin-top:20px;">
+               <option value="m-sd-ss">Mean, Standard Deviation, and Sample Size</option>
+            </select>
+         </div>
+     </div>
+    <!--2-->
+   <div class="lower-input-box center">
+      <div class="inner-upper-box "style="margin-bottom: 5px;">
+            <!--BOX1-->
+            <div class="box1">
+               <p class="inner-text p-cus">Sample Mean (x̅)</p>
+               <br>
+               <input id="sample-mean-val" type="text"class="inner-input"style="height:23px;width: 271px;">   
+            </div>
+
+            <!--BOX2-->
+            <div class="box2">
+               <p class="inner-text p-cus">Sample Size (n)</p>
+               <br>
+               <input id="sample-size-val"type="text"class="inner-input"style="height:23px;width: 285px;">  
+            </div>
+         </div>
+          <!--3-->
+         <div class="inner-upper-box-cus "style="margin-bottom:5px;">
+            <!--BOX2    CUSTOM-->
+            <div class="box2">
+               <p class="inner-text p-cus" style="margin-top:x;">Population Standard Deviation (s)</p>
+               <br>
+               <div>
+                  <input id="population-sd-val"type="text"class="inner-input"style="height:26px;width: 572px;">  
+               </div>
+            </div>
+         </div>
+         <!--4-->
+         <div class="inner-upper-box ">
+            <!--BOX1-->
+            <div class="box1">
+               <p class="inner-text p-cus">Significance Level</p>
+               <br>
+               <select  onchange="updateConfidence()" id="significance-level" style="width:275px;height:29px;background-color:#95B5C9;">
+                  <option value="0.05">0.05</option>
+                  <option value="0.01">0.01</option>
+                  <option value="0.10">0.10</option>
+               </select>
+            </div>
+            <!--BOX2-->
+            <div class="box2">
+               <p class="inner-text p-cus">Confidence Level</p>
+               <br>
+               <select onchange="updateSignificance()" id="confidence-level"style="width:289px;height:29px;background-color:#95B5C9;">
+                  <option value="95%">95%</option>
+                  <option value="90%">90%</option>
+                  <option value="99%">99%</option>
+               </select>
+            </div>
+         </div>
+         <div class="right"style="margin-top:10px;">
+            <a  href="#"class="a1" onclick="reset()">Reset</a>
+            <a  href="#" onclick="getValue()" style="margin-left:10px; margin-right: 20px;">Calculate</a>
+         </div>
+   </div>
+</div>
+
+<div>
+   <h3>Step-by-Step Solution</h3>
+       <ol>
+
+         <p id="DisplayValues">
+            
+              <strong style="font-size: 20px;">
+                  Data: <br>
+                      \[ \bar{x} = 35 \quad\quad s = 10 \quad\quad \alpha = 0.05 \]
+              </strong>
+         </p>
+
+
+           <li>State the hypothesis:</li> 
+           
+           <p class="p-formula" id="Step1">
+               \[
+                   \begin{array}{rcl}
+
+                   \ce{H0: \mu} & \ge  & 3 \\
+                   \ce{H1: \mu} & \lt   & 3 \\
+                   
+                   \end{array}
+               \]
+
+               This is a <strong>one-sided test.</strong> 
+
+           </p>
+           
+           <li>Select an appropriate test:</li><br>
+
+           <p class="p-formula" id="Step2"> 
+               Since the population variance is unknown and sample size (n) &ge; 30, use a t-test. 
+           </p>
+
+           
+           <br><li>Specify the level of significance (&alpha;):</li><br>
+
+           <p class="p-formula"> 
+               \[ \alpha \; = \; 1 \;- \; \text{Confidence Level} \]
+           </p>
+               
+           <br><li>Determine the critical values and state the decision rule: </li><br>
+
+           <p class="p-formula" style="font-weight: bold;" id="Step4">
+
+               \[
+                   \begin{aligned}     
+                       \textbf{Probability (p):} \quad (1-0.05)/2 \\
+                       \textbf{Critical value: } \quad T_{0.05} = 1.6766 \\
+                   \end{aligned}
+                   
+               \]
+               <br> \[ \textbf{Decision Rule:} \]
+               \[ 
+                   \begin{array}{rcl}
+                       \text{If   T} & \le & T_{0.05}, \quad \text{reject } H_0 \\
+                       \text{If   T} & \gt  & T_{0.05}, \quad \text{fail to reject } H_0  \\
+                   \end{array}
+               \]
+           </p>
+
+           <br><li>Calculate the test statistic:</li><br>
+
+           <p class="p-formula" style="font-weight: bold;" id="Step5">
+
+               \[
+                   T=\frac{\overline{x}-\mu_0}{\frac{s}{\sqrt{n}}} \quad=\quad 
+                   T=\frac{35-3}{\frac{10}{\sqrt{50}}}             \quad=\quad 
+                   22.6274 
+               \]
+
+           </p>
+           <br><li>Make a decision based on the result:</li><br>
+           <p class="p-formula" id="Step6">
+               \[
+                   \textbf{Critical Value Approach:}
+               \]
+               
+               \[
+                   \begin{array}{rcl}
+                   &22.6274 \le -1.6766, \text{reject } H_0& \\
+                   &\text{p-value} = 1.0000& \\\\
+                   &\textbf{P-value Approach:}& \\
+                   &\text{p-value} \gt 0.05, \text{Fail to reject } H_0& \\
+                   \end{array}
+               \]
+           </p>
+
+           <p id="Conclusion">
+              <strong style="font-size: 20px;">
+                  Conclusion: <br>
+                      <p class="p-formula">
+              
+                          \[ \textbf{Fail to reject } H_0 \]
+                          because the p-value is higher than the specified significance level (&alpha;).
+                      </p>
+              
+              </strong>
+           </p>
+       </ol> 
+</div>
+
+<script>
+   function validate(){
+   // Null Hypothesis
+      const nullValue = Number(document.getElementById("null-val").value);
+      const nullOperatorValue = document.getElementById("null-operator-val").value;
+
+      // Alternative Hypothesis
+      const altValue = Number(document.getElementById("alt-val").value);
+      const altOperatorValue = document.getElementById("alt-operator-val").value;
+
+      // Available Data
+      const availableData = document.getElementById("available-data").value;
+
+      // Sample Mean and Size
+      const sampleMeanValue = Number(document.getElementById("sample-mean-val").value);
+      const sampleSizeValue = parseInt(document.getElementById("sample-size-val").value, 10);
+
+      // Population Standard Deviation
+      const populationSdValue = Number(document.getElementById("population-sd-val").value);
+
+      // Significance & Confidence Levels
+      const significanceLevel = Number(document.getElementById("significance-level").value);
+      const confidenceLevel = Number(document.getElementById("confidence-level").value.replace("%",""));
+
+      //I aint writing allat, gpt wrote each check
+      if (isNaN(Number(nullValue))) {
+         alert("Null Hypothesis must be a number");
+         return;
+      }
+
+      if (isNaN(Number(altValue))) {
+         alert("Alternative Hypothesis must be a number");
+         return;
+      }
+
+      if (isNaN(Number(sampleMeanValue))) {
+         alert("Sample mean must be a number");
+         return;
+      }
+
+      if (!Number.isInteger(Number(sampleSizeValue)) || Number(sampleSizeValue) <= 0) {
+         alert("Sample size must be a positive integer");
+         return;
+      }
+
+      if (Number(populationSdValue) <= 0 || isNaN(Number(populationSdValue))) {
+         alert("Population Standard Deviation must be a positive number");
+         return;
+      }
+
+         
+      if (!nullValue) {
+         alert("Please fill in the Null Hypothesis value.");
+         return;
+      }
+
+      if (!nullOperatorValue) {
+         alert("Please select the Null Hypothesis operator.");
+         return;
+      }
+
+      if (!altValue) {
+         alert("Please fill in the Alternative Hypothesis value.");
+         return;
+      }
+
+      if (!altOperatorValue) {
+         alert("Please select the Alternative Hypothesis operator.");
+         return;
+      }
+
+      if (!availableData) {
+         alert("Please select Available Data.");
+         return;
+      }
+
+      if (!sampleMeanValue) {
+         alert("Please fill in the Sample Mean.");
+         return;
+      }
+
+      if (!sampleSizeValue) {
+         alert("Please fill in the Sample Size.");
+         return;
+      }
+
+      if (!populationSdValue) {
+         alert("Please fill in the Population Standard Deviation.");
+         return;
+      }
+
+      if (!significanceLevel) {
+         alert("Please select a Significance Level.");
+         return;
+      }
+
+      if (!confidenceLevel) {
+         alert("Please select a Confidence Level.");
+         return;
+      }
+   }
+
+   function getValue(){    
+   validate();
+
+   const nullValue = Number(document.getElementById("null-val").value);
+   const nullOperatorValue = document.getElementById("null-operator-val").value;
+
+   // Alternative Hypothesis
+   const altValue = Number(document.getElementById("alt-val").value);
+   const altOperatorValue = document.getElementById("alt-operator-val").value;
+
+   // Available Data
+   const availableData = document.getElementById("available-data").value;
+
+   // Sample Mean and Size
+   const sampleMeanValue = Number(document.getElementById("sample-mean-val").value);
+   const sampleSizeValue = parseInt(document.getElementById("sample-size-val").value, 10);
+
+   // Population Standard Deviation
+   const populationSdValue = Number(document.getElementById("population-sd-val").value);
+
+   // Significance & Confidence Levels
+   const significanceLevel = Number(document.getElementById("significance-level").value);
+   const confidenceLevel = Number(document.getElementById("confidence-level").value.replace("%",""));
+
+
+   // THE DATAS 
+   let DisplayValues = document.getElementById("DisplayValues");
+
+   DisplayValues.innerHTML = `
+            <strong style="font-size: 20px;">
+                  Data: <br>
+                      \\[ \\bar{x} = ${sampleMeanValue} \\quad\\quad s = ${populationSdValue} \\quad\\quad \\alpha = ${significanceLevel} \\quad\\quad n = ${sampleSizeValue} \\]
+            </strong>
+   `; 
+
+   // STEP 1 IS THE HYPOTHESIS 
+   let Step1 = document.getElementById("Step1");
+   if(altOperatorValue === "≠") {
+      Step1.innerHTML = `
+      \\[
+         \\begin{array}{rcl}
+         \\text{H}_0\!:~ \\mu~${nullOperatorValue}~${nullValue} \\\\
+         \\text{H}_1\!:~ \\mu~${altOperatorValue}~${altValue} \\\\
+
+         \\end{array}
+      \\]
+      This is a <strong>Two-sided test.</strong> 
+      `;
+   } else {
+      Step1.innerHTML = `
+      \\[
+         \\begin{array}{rcl}
+         \\text{H}_0\:~ \\mu~${nullOperatorValue}~${nullValue} \\\\
+         \\text{H}_1\:~ \\mu~${altOperatorValue}~${altValue} \\\\
+         \\end{array}
+      \\]
+      This is a <strong>One-sided test.</strong> 
+      `;
+   }
+
+   // STEP 2 IS SELECT APPROPRIATE TEST
+   // NOTES FROM CHAM: DAPAT ALERT CONFIRMATION BUTTON DAHIL DI RECOMMEDED ANG LESS THAN 30 SAMPLES
+   let Step2 = document.getElementById("Step2");
+   if (sampleSizeValue >= 30) {
+      Step2.innerHTML = `Since the population variance is unknown and sample size (${sampleSizeValue}) &ge; 30, use a Standard Test. `;
+   } else {
+      Step2.innerHTML = `Since the population variance is unknown and sample size (${sampleSizeValue}) < 30, use a T-Test. `;
+   }
+   
+   // STEP 3 IS CAN BE SKIPPED DAHIL WALANG SANGKOP NA VALUES
+
+   // STEP 4 
+
+   /*
+      COMMENT FROM ERNEST "Yo Cham bro, Sorry Ulet, pero di ko medyo gets kung pano na cacalculate yung significance level based kung siya ay one-tail or two-tailed."
+
+      COMMENT FROM ERNEST:
+      "So basically cinopy paste ko yung calculator mo then pinaste ko dito. Tapos inassign ko yung value ng mga dineclare ni jose. Pina adjust ko nalang sa AI sorry sorry 🙏"
+
+   */ 
+
+   let Step4 = document.getElementById("Step4");
+
+   // Calculate z-stat and critical values using selected options
+   const z = (parseFloat(sampleMeanValue) - parseFloat(nullValue)) / (parseFloat(populationSdValue) / Math.sqrt(parseInt(sampleSizeValue)));
+   let reject = false;
+   let critical;
+   let probFormula, criticalValueDesc, decisionRule;
+
+   // Determine test type and build correct math
+   if (nullOperatorValue === '=') {
+      // Two-tailed z-test
+      critical = jStat.normal.inv(1 - (significanceLevel / 2), 0, 1);
+      probFormula = `\\textbf{Probability (p):} \\quad (1-${significanceLevel})/2`;
+      criticalValueDesc = `\\textbf{Critical value:} \\quad Z_{${significanceLevel}/2} = ${critical.toFixed(4)}`;
+      decisionRule = `
+         \\text{If } |Z| \\geq ${critical.toFixed(4)}, \\text{ reject } H_0 \\\\
+         \\text{If } |Z| < ${critical.toFixed(4)}, \\text{ fail to reject } H_0
+      `;
+      if (z <= -1 * critical || z >= critical) {
+         reject = true;
+      }
+   } else if (nullOperatorValue === '≥') {
+      // Left-tailed
+      critical = jStat.normal.inv(significanceLevel, 0, 1); // Left-side critical value, negative
+      probFormula = `\\textbf{Probability (p):} \\quad ${significanceLevel}`;
+      criticalValueDesc = `\\textbf{Critical value:} \\quad Z_{${significanceLevel}} = ${critical.toFixed(4)}`;
+      decisionRule = `
+         \\text{If } Z \\leq ${critical.toFixed(4)}, \\text{ reject } H_0 \\\\
+         \\text{If } Z > ${critical.toFixed(4)}, \\text{ fail to reject } H_0
+      `;
+      if (z <= critical) {
+         reject = true;
+      }
+   } else if (nullOperatorValue === '≤') {
+      // Right-tailed
+      critical = jStat.normal.inv(1 - significanceLevel, 0, 1);
+      probFormula = `\\textbf{Probability (p):} \\quad ${significanceLevel}`;
+      criticalValueDesc = `\\textbf{Critical value:} \\quad Z_{1-${significanceLevel}} = ${critical.toFixed(4)}`;
+      decisionRule = `
+         \\text{If } Z \\geq ${critical.toFixed(4)}, \\text{ reject } H_0 \\\\
+         \\text{If } Z < ${critical.toFixed(4)}, \\text{ fail to reject } H_0
+      `;
+      if (z >= critical) {
+         reject = true;
+      }
+   }
+
+   Step4.innerHTML = `
+      \\[
+         \\begin{aligned}     
+            ${probFormula} \\\\
+            ${criticalValueDesc} \\\\
+         \\end{aligned}
+      \\]
+      <br> \\[ \\textbf{Decision Rule:} \\]
+      \\[
+         \\begin{array}{l}
+            ${decisionRule}
+         \\end{array}
+      \\]
+   `;
+
+   // STEP 5 WHICH IS THE RESULT (CALCULATED NA SA TAAS BASED SA FORMULA NI CHAM)
+   let Step5 = document.getElementById("Step5");
+   Step5.innerHTML = `
+      \\[
+         Z = \\frac{\\overline{x} - \\mu_0}{\\frac{s}{\\sqrt{n}}}
+         \\quad = \\quad
+         \\frac{${sampleMeanValue} - ${nullValue}}{\\frac{${populationSdValue}}{\\sqrt{${sampleSizeValue}}}}
+         \\quad = \\quad
+         ${z.toFixed(4)}
+      \\]
+   `;
+
+   // STEP 6 - Display Decision (Critical Value & P-value Approach)
+   let Step6 = document.getElementById("Step6");
+   const pValue = 1 - jStat.normal.cdf(z, 0, 1); // right-tailed by default
+
+   function getCriticalApproach(zVal, criticalVal, reject, tail) {
+      if (reject) {
+         if (tail === 'left') {
+            return `Z = ${zVal} \\leq ${criticalVal}, \\; \\text{reject } H_0`;
+         } else if (tail === 'right') {
+            return `Z = ${zVal} \\geq ${criticalVal}, \\; \\text{reject } H_0`;
+         } else {
+            return `|Z| = |${zVal}| \\geq ${criticalVal}, \\; \\text{reject } H_0`;
+         }
+      } else {
+         if (tail === 'left') {
+            return `Z = ${zVal} > ${criticalVal}, \\; \\text{fail to reject } H_0`;
+         } else if (tail === 'right') {
+            return `Z = ${zVal} < ${criticalVal}, \\; \\text{fail to reject } H_0`;
+         } else {
+            return `|Z| = |${zVal}| < ${criticalVal}, \\; \\text{fail to reject } H_0`;
+         }
+      }
+   }
+   
+   function getPValueApproach(pVal, sig, reject) {
+      if (reject) {
+         return `\\text{p-value} = ${pVal} \\lt ${sig}, \\; \\text{reject } H_0`;
+      } else {
+         return `\\text{p-value} = ${pVal} \\geq ${sig}, \\; \\text{fail to reject } H_0`;
+      }
+   }
+   // Decide tail type for correct approach text
+   let tailType = null;
+   if (nullOperatorValue === "≥") tailType = "left";
+   else if (nullOperatorValue === "≤") tailType = "right";
+   else tailType = "two";
+
+   const zDisplay = z.toFixed(4);
+   const criticalDisplay = critical.toFixed(4);
+   const pValueDisplay = pValue.toFixed(4);
+
+   const criticalApproach = getCriticalApproach(zDisplay, criticalDisplay, reject, tailType);
+   const pValueApproach = getPValueApproach(pValueDisplay, significanceLevel, reject);
+
+   // Don't use multiple LaTeX line breaks, instead use HTML block elements for visual separation.
+   // Insert each decision block as a separate line using <div> instead of <br> or LaTeX line-breaks.
+   const latexStep6 = `
+      <div style="font-weight:bold;">\\(\\textbf{Summary of Decision:}\\)</div>
+      <div>\\(${criticalApproach}\\)</div>
+      <div style="font-weight:bold;">\\(\\textbf{P\\text{-}value:}\\) ${pValueDisplay}</div>
+      <div>\\(${pValueApproach}\\)</div>
+   `;
+
+   Step6.innerHTML = latexStep6;
+
+   // Make sure MathJax renders the new LaTeX content AFTER updating the container
+   if (window.MathJax && typeof MathJax.typeset === "function") {
+      MathJax.typeset([Step6]);
+   }
+
+   // Display conclusion based on decision outcome above
+   let conclusion = document.getElementById("Conclusion");
+   let conclusionTitle = "Conclusion:";
+   let conclusionText, reasonText;
+
+   if (reject) {
+      conclusionText = "\\[ \\textbf{Reject } H_0 \\]";
+      // Use context of which reason fits best:
+      reasonText = "because the statistical evidence suggests the alternative hypothesis is favored (p-value is lower than the significance level &alpha;).";
+   } else {
+      conclusionText = "\\[ \\textbf{Fail to reject } H_0 \\]";
+      reasonText = "because the p-value is greater than or equal to the specified significance level (&alpha;), so there is insufficient evidence to favor the alternative hypothesis.";
+   }
+
+   
+
+   if (window.MathJax && typeof MathJax.typeset === "function") {
+      MathJax.typeset([conclusion]);
+   }
+
+
+    MathJax.typeset();
+    console.log("Null Hypothesis: μ " + nullOperatorValue + " " + nullValue);
+    console.log("Alternative Hypothesis: μ " + altOperatorValue + " " + altValue);
+    console.log("Available Data: " + availableData);
+    console.log("Sample Mean: " + sampleMeanValue);
+    console.log("Sample Size: " + sampleSizeValue);
+    console.log("Population Standard Deviation: " + populationSdValue);
+    console.log("Significance Level: " + significanceLevel);
+    console.log("Confidence Level: " + confidenceLevel);
+}
+
+   function reset(){
+    // Clear text input fields
+    document.getElementById("null-val").value = "";
+    document.getElementById("alt-val").value = "";
+    document.getElementById("sample-mean-val").value = "";
+    document.getElementById("sample-size-val").value = "";
+    document.getElementById("population-sd-val").value = "";
+
+    // Reset dropdowns to default (first option)
+    document.getElementById("null-operator-val").selectedIndex = 0;
+    document.getElementById("alt-operator-val").selectedIndex = 0;
+    document.getElementById("available-data").selectedIndex = 0;
+    document.getElementById("significance-level").selectedIndex = 0;
+    document.getElementById("confidence-level").selectedIndex = 0;
+
+    const altInput = document.getElementById("alt-val");
+    const altSelect = document.getElementById("alt-operator-val");
+    altInput.value = "";
+    altSelect.selectedIndex = 0;
+}
+
+   //Function to perform live updates kada "change" o pag select ng option ng user.
+   function updateAltValue(){
+    let input = document.getElementById("null-val").value;
+    let altValue = document.getElementById("alt-val");
+    altValue.value = input;
+
+    let nullOperatorValue = document.getElementById("null-operator-val").value;
+    let altSelect = document.getElementById('alt-operator-val');
+
+      if(nullOperatorValue === "="){
+         altSelect.value = "≠"; 
+      } else if(nullOperatorValue === "≤"){
+         altSelect.value = ">"; 
+      } else if(nullOperatorValue === "≥"){
+         altSelect.value = "<"; 
+      }
+   }
+   
+   function updateConfidence(){
+      let input = document.getElementById("significance-level").value; 
+      let confidenceSelect = document.getElementById("confidence-level");
+
+      if(input === "0.05"){
+         confidenceSelect.value = "95%";
+      } else if (input === "0.01"){
+         confidenceSelect.value = "99%";
+      } else {
+         confidenceSelect.value = "90%";
+      }
+   }
+   
+   function updateSignificance(){
+      let input = document.getElementById("confidence-level").value;
+      let significanceSelect = document.getElementById("significance-level");
+
+      if(input=="95%"){
+         significanceSelect.value = "0.05";
+      } else if (input =="99%"){
+         significanceSelect.value = "0.01";
+      } else if (input =="90%"){
+         significanceSelect.value = "0.10";
+      }
+   }
+
+</script>
+
+</body>
+</html> 
+

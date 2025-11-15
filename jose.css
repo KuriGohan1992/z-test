@@ -1,0 +1,84 @@
+option {
+    padding: 100px;
+}
+
+.top-bar{
+    width: auto;
+    height: auto;
+    color:white;
+    background-color: #065A8D;
+    
+}
+
+.calculator-field input, .calculator-field select{
+    background-color: #CCCCCC;
+    color:black;
+    height: 50px;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.inner-fields{
+    display:flex; 
+    flex-direction: column; 
+    flex: 1;
+    align-items: left;
+}
+
+.inner-fields, .inner-fields input {
+    min-width: 0;
+}
+
+.right{
+    display: flex;
+    justify-content: flex-end; /* aligns children to left */
+    align-items: end; /* optional: vertical alignment */
+    width: 100%; /* ensure parent takes full width */
+}
+
+.reset-button{
+    background-color: #E07A5F;
+    padding:15px;
+    width: 130px;
+    color:white;
+    text-align: center;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+.reset-button:hover{
+    color: white;
+    background-color: #CE6A4F;
+}
+.calculate-button{
+    background-color: rgb(6 90 141 / var(--tw-bg-opacity, 1));
+    padding:15px;
+    width: 130px;
+    color:white;
+    text-align:center;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+.calculate-button:hover{
+    color: white;
+    background-color: #04496F; 
+}
+
+
+/* Cham's CSS for Graph */
+#graph {
+    border: solid 1px;
+}
+
+#svg-wrap {
+    display: none;
+    width: 100%;
+    max-width: 900px;
+}
+
+#svg-wrap svg {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+mjx-container {text-align: left !important;}
