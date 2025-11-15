@@ -10,6 +10,10 @@ option {
     
 }
 
+#how_to_use li {
+    margin-top: 10px;
+}
+
 .calculator-field input, .calculator-field select{
     background-color: #CCCCCC;
     color:black;
@@ -81,4 +85,8 @@ option {
     display: block;
 }
 
-mjx-container {text-align: left !important;}
+#steps ol li{
+    font-weight: bold;
+}
+
+#results-container mjx-container {text-align: left !important;}

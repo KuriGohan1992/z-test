@@ -179,8 +179,145 @@ function getValue(){
    } else {
       decision.innerHTML = '\\[ \\textbf{Decision: } \\text{Fail to Reject Null Hypothesis}\\]';      
    }
+
+   const solution = document.getElementById('solution');
+   const data = document.getElementById('data');
+   solution.style.display = 'block';
+
+   data.innerHTML = `
+      <div id="data">
+         <strong>Data: </strong>
+         \\[ \\bar{x} = ${sampleMeanValue} \\quad\\quad \\sigma = ${populationSdValue} \\quad\\quad \\alpha = ${significanceLevel} \\]
+      </div>      
+   `
+
    
+   const step1 = document.getElementById('step1');
+   const step2 = document.getElementById('step2');
+   const step3 = document.getElementById('step3');
+   const step4 = document.getElementById('step4');
+   const step5 = document.getElementById('step5');
+
+   step1.innerHTML = `
+      <li>State the hypothesis:</li>
+      \\[
+         \\begin{array}{rcl}
+         \\text{H}_0\\!:~ \\mu~${nullOperatorValue}~${nullValue} \\\\
+         \\text{H}_1\\!:~ \\mu~${altOperatorValue}~${altValue} \\\\
+         
+         \\end{array}
+      \\]   
+   `      
+   if (nullOperatorValue === '=') {
+      step1.innerHTML += 'Since the alternative hypothesis includes the possibility of a difference in both directions (greater than and less than the null hypothesis value), this is a two-sided test.'
+   } else {
+      step1.innerHTML += 'Since the alternative hypothesis specifies a difference in only one direction (either greater than or less than the null hypothesis value), we say this is a one-sided test.'
+   }
+
+   step2.innerHTML = `
+      <li>Specify the significance level(α)/confidence level:</li>
+      \\[
+         
+         \\begin{array}{}
+            \\alpha \\; = \\; 1 \\;- \\; \\text{Confidence Level} \\\\
+            \\alpha \\; = \\; 1 \\;- \\; ${confidenceLevel/100}
+         \\end{array}
+      \\]
+   `
+
+   step3.innerHTML = `
+      <li>Determine the critical values and state the decision rule:</li>
+   `
+
+   if (nullOperatorValue === '=') {
+      step3.innerHTML += `
+         Since this is a two-sided test, we will divide the significance level (α) equally between the two tails. The critical value from the standard normal distribution table is:
+         \\[
+            \\begin{array}{}
+               \\left (p \\right ) = ${significanceLevel}/2 \\\\
+               \\left (p \\right ) = ${significanceLevel / 2} \\\\
+               z_{${significanceLevel / 2}} = ${criticalValue.toFixed(4)}
+            \\end{array}                  
+         \\]
+         The critical values for a two sided test are:
+         \\[
+            \\begin{array}{}
+               z = ${1 * criticalValue.toFixed(4)} \\; \\text{and} -\\!z = ${-1 * criticalValue.toFixed(4)} \\\\
+               \\textbf{Critical Value: } \\pm${criticalValue.toFixed(4)}
+            \\end{array}
+         \\]
+      `
+   } else if (nullOperatorValue === '≥') {
+      step3.innerHTML += `
+         Since this is a one-sided left-tailed test, we will allocate the significance level (α) to the left tail of the distribution. The critical value from the standard normal distribution table is:
+         \\[
+            \\begin{array}{}
+               \\left (p \\right ) = ${significanceLevel} \\\\
+               \\left (p \\right ) = ${significanceLevel} \\\\
+               z_{${significanceLevel}} = ${criticalValue.toFixed(4)}
+            \\end{array}                  
+         \\]
+         The critical value for a left tailed test is:
+         \\[
+            \\begin{array}{}               
+               -\\!z = ${criticalValue.toFixed(4)} \\\\
+               \\textbf{Critical Value: } ${criticalValue.toFixed(4)}
+            \\end{array}
+         \\]
+      `
+   } else if (nullOperatorValue === '≤') {
+      step3.innerHTML += `
+         Since this is a one-sided right-tailed test, we will allocate the significance level (α) to the right tail of the distribution. The critical value from the standard normal distribution table is:
+         \\[
+            \\begin{array}{}
+               \\left (p \\right ) = ${significanceLevel} \\\\
+               \\left (p \\right ) = ${significanceLevel} \\\\
+               z_{${significanceLevel}} = ${criticalValue.toFixed(4)}
+            \\end{array}                  
+         \\]
+         The critical value for a right tailed test is:
+         \\[
+            \\begin{array}{}
+               z = ${1 * criticalValue.toFixed(4)} \\\\
+               \\textbf{Critical Value: } ${criticalValue.toFixed(4)}
+            \\end{array}
+         \\]
+      `
+   }
+
+   
+   step4.innerHTML = `
+      <li>Calculate the z-statistic:</li>
+      \\[
+         \\begin{array}{}
+            Z = \\frac{\\overline{x} - \\mu_0}{\\sigma/\\sqrt{n}}
+            \\Rightarrow
+            \\frac{${sampleMeanValue} - ${nullValue}}{${populationSdValue}/\\sqrt{${sampleSizeValue}}}
+            =
+            ${zValue.toFixed(4)} \\\\
+            \\textbf{Z-Statistic: } ${zValue.toFixed(4)}
+               
+         \\end{array}
+      \\]
+   `
+
+   step5.innerHTML = `
+      <li>Make a decision based on the result:</li>
+   `
+
+   if (nullOperatorValue === '=') {
+      step5.innerHTML = `
+      \\[
+         \\text{if ${zValue} } \\leq \\text{ ${-criticalValue} or ${zValue} } \\geq \\text{ ${criticalValue} }, then reject H_{0}}
+      \\]
+      `
+   }
+      
    MathJax.typeset();
+
+
+   
+   
 }
 
    
@@ -214,6 +351,9 @@ function reset(){
    zstatistic.innerHTML = '';        
    critical.innerHTML = '';        
    decision.innerHTML = '';
+
+   const solution = document.getElementById('solution');
+   solution.style.display = 'none';
 }
 
    //Function to perform live updates kada "change" o pag select ng option ng user.
