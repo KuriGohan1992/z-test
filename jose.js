@@ -315,7 +315,37 @@ function getValue(){
             \\text{if } ${zValue.toFixed(4)} \\leq ${-criticalValue.toFixed(4)} \\text{ or }  ${zValue.toFixed(4)} \\geq ${1*criticalValue.toFixed(4)} \\text{, then reject } H_{0}
          \\end{array}
       \\]
+      `      
+   } else if (nullOperatorValue === '≥') {
+      step5.innerHTML += `
+      \\[
+         \\begin{array}{}
+            \\text{if Z-Statistic}  \\leq \\text{Critical Value, then reject } H_{0}\\\\
+            \\\\
+            \\text{if } ${zValue.toFixed(4)} \\leq ${criticalValue.toFixed(4)} \\text{, then reject } H_{0}
+         \\end{array}
+      \\]
       `
+   } else if (nullOperatorValue === '≤') {
+      step5.innerHTML += `
+      \\[
+         \\begin{array}{}
+            \\text{if Z-Statistic}  \\geq \\text{Critical Value, then reject } H_{0}\\\\
+            \\\\
+            \\text{if } ${zValue.toFixed(4)} \\geq ${criticalValue.toFixed(4)} \\text{, then reject } H_{0}
+         \\end{array}
+      \\]
+      `
+   }
+
+   if (reject) {
+      step5.innerHTML += `
+         \\[ \\textbf{Decision: } \\text{Reject Null Hypothesis}\\]
+      `
+   } else {
+      step5.innerHTML += `
+         \\[ \\textbf{Decision: } \\text{Fail to Reject Null Hypothesis}\\]
+      `         
    }
       
    MathJax.typeset();
